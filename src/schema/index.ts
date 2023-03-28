@@ -1,6 +1,8 @@
 import { writeFileSync } from 'fs';
 import { resolve } from 'path';
 import { printSchema } from 'graphql';
+import builder from '../builder';
+import './shopitem';
 
 const schema = builder.toSchema({});
 
