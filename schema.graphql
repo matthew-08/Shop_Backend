@@ -4,14 +4,29 @@ A date-time string at UTC, such as 2007-12-03T10:15:30Z, compliant with the `dat
 scalar DateTime
 
 type Query {
+  allCategories: [ShopCategory!]!
+
+  """All shop items."""
+  allItems: [ShopItem!]!
+
+  """Shop items filtered by category"""
+  itemByCategory(categoryId: Int!): [ShopItem!]!
+
   """An individual shop item obtained through ID"""
   itemById(id: Int!): ShopItem
 }
 
+"""An object type for a shop category"""
+type ShopCategory {
+  categoryId: ID!
+  categoryItems: [ShopItem!]!
+  categoryName: String!
+}
+
 """An object representing an individual shop item."""
 type ShopItem {
-  id: ID!
   itemDescription: String!
+  itemId: ID!
   itemImage: String!
   itemName: String!
   quantity: Int!

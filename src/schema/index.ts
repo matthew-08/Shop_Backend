@@ -3,6 +3,7 @@ import { resolve } from 'path';
 import { printSchema } from 'graphql';
 import builder from '../builder';
 import './shopitem';
+import './category';
 
 const schema = builder.toSchema({});
 

@@ -7,7 +7,7 @@ builder.prismaObject('ShopItem', {
     itemName: t.exposeString('name'),
     itemDescription: t.exposeString('description'),
     itemImage: t.exposeString('img'),
-    id: t.exposeID('id'),
+    itemId: t.exposeID('id'),
     quantity: t.exposeInt('quantity'),
   }),
 });
