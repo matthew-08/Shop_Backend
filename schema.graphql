@@ -4,6 +4,7 @@ A date-time string at UTC, such as 2007-12-03T10:15:30Z, compliant with the `dat
 scalar DateTime
 
 type Mutation {
+  checkForSession(input: SessionCheckInput!): User!
   register(input: UserRegisterInput!): User!
 }
 
@@ -18,6 +19,10 @@ type Query {
 
   """An individual shop item obtained through ID"""
   itemById(id: Int!): ShopItem
+}
+
+input SessionCheckInput {
+  token: String
 }
 
 """An object type for a shop category"""
@@ -41,6 +46,7 @@ type User {
   email: String!
   id: ID!
   name: String!
+  token: String!
 }
 
 input UserRegisterInput {
