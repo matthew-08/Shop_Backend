@@ -5,6 +5,13 @@ import type PrismaTypes from '@pothos/plugin-prisma/generated';
 import ErrorsPlugin from '@pothos/plugin-errors';
 import prisma from './db';
 
+interface User {
+  name: string
+  email: string
+  id: string
+  token: string
+}
+
 const builder = new SchemaBuilder<{
   PrismaTypes: PrismaTypes,
   Scalars: {
@@ -12,6 +19,9 @@ const builder = new SchemaBuilder<{
       Input: Date,
       Output: Date
     }
+  }
+  Objects: {
+    User: User
   }
   Context: {},
 }>({

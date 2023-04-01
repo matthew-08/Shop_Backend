@@ -1,3 +1,4 @@
+import { prismaModelKey } from '@pothos/plugin-prisma/dts/object-ref';
 import jwt, { Secret, JwtPayload } from 'jsonwebtoken';
 import builder from '../builder';
 import prisma from '../db';
@@ -6,6 +7,11 @@ import verifyJWT from '../utils/verifyJWT';
 
 const user = builder.prismaObject('User', {
   description: 'Object type representing a user',
+  select: {
+    name: true,
+    email: true,
+    id: true,
+  },
   fields: (t) => ({
     name: t.exposeString('name'),
     email: t.exposeString('email'),
@@ -111,8 +117,18 @@ builder.mutationFields((t) => ({
         where: {
           email: args.input.email,
         },
-
       });
+      if (!findUser) {
+        throw new Error('invalid email');
+      }
+      if (findUser.password === args.input.password) {
+        return {
+          id: findUser.id,
+          name: findUser.name,
+          email: findUser.email,
+        };
+      }
+      throw new Error('Wrong password');
     },
 
   }),
