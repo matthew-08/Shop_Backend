@@ -89,3 +89,31 @@ builder.mutationFields((t) => ({
     },
   }),
 }));
+
+const LoginInputType = builder.inputType('LoginType', {
+  fields: (t) => ({
+    email: t.string({ required: true }),
+    password: t.string({ required: true }),
+  }),
+});
+
+builder.mutationFields((t) => ({
+  login: t.field({
+    type: user,
+    errors: {
+      types: [Error],
+    },
+    args: {
+      input: t.arg({ type: LoginInputType, required: true }),
+    },
+    resolve: async (root, args) => {
+      const findUser = await prisma.user.findFirst({
+        where: {
+          email: args.input.email,
+        },
+
+      });
+    },
+
+  }),
+}));
