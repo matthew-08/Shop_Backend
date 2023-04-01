@@ -11,6 +11,7 @@
   "license": "ISC",
   "dependencies": {
     "@pothos/core": "^3.29.0",
+    "@pothos/plugin-errors": "^3.11.0",
     "@pothos/plugin-prisma": "^3.47.0",
     "@prisma/client": "^4.11.0",
     "@types/node": "^18.15.10",

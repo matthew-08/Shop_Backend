@@ -1,8 +1,8 @@
-import { ok } from 'assert';
 import jwt, { Secret, JwtPayload } from 'jsonwebtoken';
 import builder from '../builder';
 import prisma from '../db';
 import JWTSecretKey from '../utils/envVariables';
+import verifyJWT from '../utils/verifyJWT';
 
 const user = builder.prismaObject('User', {
   description: 'Object type representing a user',
@@ -55,22 +55,31 @@ const sessionCheckInput = builder.inputType('SessionCheckInput', {
   }),
 });
 
+builder.objectType(Error, {
+  name: 'Error',
+  fields: (t) => ({
+    message: t.exposeString('message'),
+  }),
+});
+
 builder.mutationFields((t) => ({
   checkForSession: t.field({
     type: user,
+    errors: {
+      types: [Error],
+    },
     args: {
       input: t.arg({ type: sessionCheckInput, required: true }),
     },
     resolve: async (root, args) => {
       // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-      console.log(args.input);
-      const verifyUser = await jwt.verify(args.input.token!, JWTSecretKey);
-      if (typeof verifyUser === 'string') {
+      const checkJWT = await verifyJWT(args.input.token!);
+      if (!checkJWT) {
         throw new Error('Unauthorized');
       } else {
         const getUser = await prisma.user.findFirstOrThrow({
           where: {
-            id: verifyUser.id,
+            id: Number(checkJWT.id),
           },
         });
         return {
