@@ -4,6 +4,7 @@ import { printSchema } from 'graphql';
 import builder from '../builder';
 import './shopitem';
 import './category';
+import './auth';
 
 const schema = builder.toSchema({});
 

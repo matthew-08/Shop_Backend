@@ -3,6 +3,10 @@ A date-time string at UTC, such as 2007-12-03T10:15:30Z, compliant with the `dat
 """
 scalar DateTime
 
+type Mutation {
+  register(input: UserRegisterInput!): User!
+}
+
 type Query {
   allCategories: [ShopCategory!]!
 
@@ -30,4 +34,16 @@ type ShopItem {
   itemImage: String!
   itemName: String!
   quantity: Int!
+}
+
+"""Object type representing a user"""
+type User {
+  email: String!
+  id: ID!
+  name: String!
+}
+
+input UserRegisterInput {
+  email: String!
+  name: String!
 }

@@ -1,3 +1,4 @@
+import jwt, { Secret, JwtPayload } from 'jsonwebtoken';
 import builder from '../builder';
 import prisma from '../db';
 
@@ -30,6 +31,9 @@ builder.mutationFields((t) => ({
           name: args.input.name,
         },
       });
+
+      const token = await jwt.sign();
+
       return newUser;
     },
   }),

@@ -17,11 +17,13 @@
     "graphql": "^16.6.0",
     "graphql-scalars": "^1.21.3",
     "graphql-yoga": "^3.7.3",
+    "jsonwebtoken": "^9.0.0",
     "pothos": "^0.0.1",
     "prisma": "^4.11.0",
     "ts-node-dev": "^2.0.0"
   },
   "devDependencies": {
+    "@types/jsonwebtoken": "^9.0.1",
     "@typescript-eslint/eslint-plugin": "^5.57.0",
     "@typescript-eslint/parser": "^5.57.0",
     "eslint": "^8.36.0",
