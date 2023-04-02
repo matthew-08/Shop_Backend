@@ -261,26 +261,26 @@ async function main() {
       },
 
     });
-    console.log(`Added category ${cat}`);
-    products.forEach(async (product) => {
-      const category = await prisma.category.findFirst({
-        where: {
-          name: product.category,
-        },
-      });
-      await prisma.shopItem.create({
-        data: {
-          description: product.description,
-          img: product.image,
-          name: product.title,
-          category: {
-            connect: {
-              id: category?.id,
-            },
+  });
+  products.forEach(async (product) => {
+    const category = await prisma.category.findFirst({
+      where: {
+        name: product.category,
+      },
+    });
+
+    await prisma.shopItem.create({
+      data: {
+        description: product.description,
+        img: product.image,
+        name: product.title,
+        category: {
+          connect: {
+            id: category?.id,
           },
-          quantity: 50,
         },
-      });
+        quantity: 50,
+      },
     });
   });
 

@@ -51,7 +51,8 @@ builder.mutationFields((t) => ({
       }
       const { email, id } = await prisma.user.create({
         data: {
-
+          email: args.input.email,
+          password: args.input.password,
         },
       });
       return {
