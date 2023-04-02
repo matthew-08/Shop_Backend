@@ -7,14 +7,26 @@ type Error {
   message: String!
 }
 
+input LoginType {
+  email: String!
+  password: String!
+}
+
 type Mutation {
   checkForSession(input: SessionCheckInput!): MutationCheckForSessionResult!
+  login(input: LoginType!): MutationLoginResult!
   register(input: UserRegisterInput!): User!
 }
 
 union MutationCheckForSessionResult = Error | MutationCheckForSessionSuccess
 
 type MutationCheckForSessionSuccess {
+  data: User!
+}
+
+union MutationLoginResult = Error | MutationLoginSuccess
+
+type MutationLoginSuccess {
   data: User!
 }
 
