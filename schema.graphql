@@ -66,6 +66,7 @@ type ShopItem {
   itemId: ID!
   itemImage: String!
   itemName: String!
+  itemPrice: Float!
   quantity: Int!
 }
 

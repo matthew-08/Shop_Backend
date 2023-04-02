@@ -9,6 +9,7 @@ builder.prismaObject('ShopItem', {
     itemImage: t.exposeString('img'),
     itemId: t.exposeID('id'),
     quantity: t.exposeInt('quantity'),
+    itemPrice: t.exposeFloat('price'),
   }),
 });
 

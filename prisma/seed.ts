@@ -279,6 +279,7 @@ async function main() {
             id: category?.id,
           },
         },
+
         quantity: 50,
       },
     });
@@ -287,4 +288,26 @@ async function main() {
   console.log('Seeding finished.');
 }
 
-main();
+/* main(); */
+
+const updatePrice = async () => {
+  console.log('updating price column');
+  products.forEach(async (product) => {
+    const fetchProduct = await prisma.shopItem.findFirst({
+      where: {
+        name: product.title,
+      },
+    });
+    await prisma.shopItem.update({
+      data: {
+        price: product.price,
+      },
+      where: {
+        id: fetchProduct?.id,
+      },
+    });
+  });
+  console.log('finished updating price column');
+};
+
+updatePrice();
