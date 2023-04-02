@@ -8,12 +8,10 @@ import verifyJWT from '../utils/verifyJWT';
 const user = builder.prismaObject('User', {
   description: 'Object type representing a user',
   select: {
-    name: true,
     email: true,
     id: true,
   },
   fields: (t) => ({
-    name: t.exposeString('name'),
     email: t.exposeString('email'),
     id: t.exposeID('id'),
     token: t.field({
@@ -28,26 +26,35 @@ const user = builder.prismaObject('User', {
 
 const UserRegisterInput = builder.inputType('UserRegisterInput', {
   fields: (t) => ({
-    name: t.string({ required: true }),
     email: t.string({ required: true }),
+    password: t.string({ required: true }),
   }),
 });
 
 builder.mutationFields((t) => ({
   register: t.field({
     type: user,
+    errors: {
+      types: [Error],
+    },
     args: {
       input: t.arg({ type: UserRegisterInput, required: true }),
     },
     resolve: async (root, args) => {
-      const { name, email, id } = await prisma.user.create({
-        data: {
+      const userExists = await prisma.user.count({
+        where: {
           email: args.input.email,
-          name: args.input.name,
+        },
+      });
+      if (userExists) {
+        throw new Error('Email already exists');
+      }
+      const { email, id } = await prisma.user.create({
+        data: {
+
         },
       });
       return {
-        name,
         email,
         id,
       };

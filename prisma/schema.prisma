@@ -34,7 +34,7 @@ model ShopItem {
 
 model User {
   id       Int        @id @default(autoincrement())
-  name     String
+  name     String?
   email    String
   password String     @default("test")
   UserCart UserCart[]

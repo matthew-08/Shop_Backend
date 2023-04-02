@@ -15,7 +15,7 @@ input LoginType {
 type Mutation {
   checkForSession(input: SessionCheckInput!): MutationCheckForSessionResult!
   login(input: LoginType!): MutationLoginResult!
-  register(input: UserRegisterInput!): User!
+  register(input: UserRegisterInput!): MutationRegisterResult!
 }
 
 union MutationCheckForSessionResult = Error | MutationCheckForSessionSuccess
@@ -27,6 +27,12 @@ type MutationCheckForSessionSuccess {
 union MutationLoginResult = Error | MutationLoginSuccess
 
 type MutationLoginSuccess {
+  data: User!
+}
+
+union MutationRegisterResult = Error | MutationRegisterSuccess
+
+type MutationRegisterSuccess {
   data: User!
 }
 
