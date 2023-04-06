@@ -1,12 +1,23 @@
 import { PrismaPlugin } from '@pothos/plugin-prisma';
-import { UserCart } from '@prisma/client';
+import { ShopItem, UserCart } from '@prisma/client';
 import builder from '../builder';
 import prisma from '../db';
 import { shopItem } from './shopitem';
 
 const cartItem = builder.prismaObject('CartItem', {
   fields: (t) => ({
-    item: t.exposeID('itemId'),
+    itemId: t.exposeID('itemId'),
+    item: t.field({
+      type: shopItem,
+      resolve: async (c) => {
+        const item = await prisma.shopItem.findUnique({
+          where: {
+            id: c.itemId,
+          },
+        });
+        return item as ShopItem;
+      },
+    }),
     t: t.exposeBoolean('processed'),
   }),
 });
@@ -14,7 +25,8 @@ const cartItem = builder.prismaObject('CartItem', {
 const userCart = builder.prismaObject('UserCart', {
   fields: (t) => ({
     id: t.exposeID('id'),
-    userItems: t.field({
+    userItems: t.relation('CartItem'),
+    /* userItems: t.field({
       type: [shopItem],
       resolve: async (c) => {
         const getCart = await prisma.userCart.findUnique({
@@ -30,6 +42,9 @@ const userCart = builder.prismaObject('UserCart', {
                     id: true,
                     img: true,
                     price: true,
+                    category: true,
+                    description: true,
+                    quantity: true,
                   },
                 },
               },
@@ -37,9 +52,12 @@ const userCart = builder.prismaObject('UserCart', {
           },
         });
         const cleanData = getCart?.CartItem.map((item) => item.item);
-        return clean;
+        const createObject = cleanData?.map((item) => ({
+          itemDescription: item.description,
+        }));
+        return createObject;
       },
-    }),
+    }), */
   }),
 });
 
