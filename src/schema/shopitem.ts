@@ -1,7 +1,8 @@
+/* eslint-disable import/prefer-default-export */
 import builder from '../builder';
 import prisma from '../db';
 
-builder.prismaObject('ShopItem', {
+export const shopItem = builder.prismaObject('ShopItem', {
   description: 'An object representing an individual shop item.',
   fields: (t) => ({
     itemName: t.exposeString('name'),

@@ -1,14 +1,49 @@
 import { PrismaPlugin } from '@pothos/plugin-prisma';
+import { UserCart } from '@prisma/client';
 import builder from '../builder';
 import prisma from '../db';
+import { shopItem } from './shopitem';
 
-const userCart = builder.prismaObject('UserCart', {
+const cartItem = builder.prismaObject('CartItem', {
   fields: (t) => ({
-    cart: t.relation('CartItem'),
+    item: t.exposeID('itemId'),
+    t: t.exposeBoolean('processed'),
   }),
 });
 
-builder.queryFields((t) => ({
+const userCart = builder.prismaObject('UserCart', {
+  fields: (t) => ({
+    id: t.exposeID('id'),
+    userItems: t.field({
+      type: [shopItem],
+      resolve: async (c) => {
+        const getCart = await prisma.userCart.findUnique({
+          where: {
+            id: c.id,
+          },
+          include: {
+            CartItem: {
+              include: {
+                item: {
+                  select: {
+                    name: true,
+                    id: true,
+                    img: true,
+                    price: true,
+                  },
+                },
+              },
+            },
+          },
+        });
+        const cleanData = getCart?.CartItem.map((item) => item.item);
+        return clean;
+      },
+    }),
+  }),
+});
+
+/* builder.queryFields((t) => ({
   userCart: t.prismaField({
     args: {
       userId: t.arg({ required: true, type: 'String' }),
@@ -21,11 +56,14 @@ builder.queryFields((t) => ({
         },
       });
       if (cart) {
-        return cart;
+        return cart!;
       }
+      return [{
+        cartId: 3, itemId: 3, id: 3, processed: false,
+      }];
     },
   }),
-}));
+})); */
 
 builder.mutationFields((t) => ({
   addToCart: t.field({
@@ -52,11 +90,19 @@ builder.mutationFields((t) => ({
             },
           },
           include: {
-            CartItem: true,
+            CartItem: {
+              include: {
+                item: true,
+              },
+            },
           },
         });
-        return newCart;
+        console.log(newCart.CartItem[0].item);
       }
+      return {
+        id: 1,
+        userId: 2,
+      };
     },
   }),
 }));

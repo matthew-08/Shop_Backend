@@ -21,6 +21,7 @@ const user = builder.prismaObject('User', {
         return token;
       },
     }),
+    cart: t.relation('UserCart'),
   }),
 });
 
