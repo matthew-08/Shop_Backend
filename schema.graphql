@@ -1,5 +1,6 @@
 type CartItem {
-  item: ID!
+  item: ShopItem!
+  itemId: ID!
   t: Boolean!
 }
 
@@ -86,7 +87,7 @@ type User {
 
 type UserCart {
   id: ID!
-  userItems: [ShopItem!]!
+  userItems: [CartItem!]!
 }
 
 input UserRegisterInput {

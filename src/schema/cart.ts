@@ -115,12 +115,22 @@ builder.mutationFields((t) => ({
             },
           },
         });
-        console.log(newCart.CartItem[0].item);
+        return newCart;
       }
-      return {
-        id: 1,
-        userId: 2,
-      };
+      const uCart = await prisma.userCart.findFirst({
+        where: {
+          userId: currentUserId,
+        },
+      });
+      if (uCart) {
+        await prisma.cartItem.create({
+          data: {
+            cartId: uCart.id,
+            itemId: Number(args.itemToAdd),
+          },
+        });
+      }
+      return uCart as UserCart;
     },
   }),
 }));
