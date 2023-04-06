@@ -6,7 +6,7 @@ import { shopItem } from './shopitem';
 
 const cartItem = builder.prismaObject('CartItem', {
   fields: (t) => ({
-    itemId: t.exposeID('itemId'),
+    cartSpecificId: t.exposeID('itemId'),
     item: t.field({
       type: shopItem,
       resolve: async (c) => {
@@ -131,6 +131,26 @@ builder.mutationFields((t) => ({
         });
       }
       return uCart as UserCart;
+    },
+  }),
+  deleteFromCart: t.field({
+    args: {
+      cartId: t.arg({ required: true, type: 'String' }),
+      itemId: t.arg({ required: true, type: 'String' }),
+    },
+    type: userCart,
+    resolve: async (root, args) => {
+      await prisma.cartItem.delete({
+        where: {
+          id: Number(args.itemId),
+        },
+      });
+      const updatedCart = await prisma.userCart.findUnique({
+        where: {
+          id: Number(args.cartId),
+        },
+      });
+      return updatedCart as UserCart;
     },
   }),
 }));
