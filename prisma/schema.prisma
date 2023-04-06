@@ -23,14 +23,15 @@ model Category {
 }
 
 model ShopItem {
-  id          Int      @id @default(autoincrement())
+  id          Int        @id @default(autoincrement())
   name        String
   description String
-  price       Float    @default(30)
+  price       Float      @default(30)
   quantity    Int
   img         String
-  category    Category @relation(fields: [categoryId], references: [id])
+  category    Category   @relation(fields: [categoryId], references: [id])
   categoryId  Int
+  CartItem    CartItem[]
 }
 
 model User {
@@ -52,5 +53,7 @@ model CartItem {
   id        Int      @id @default(autoincrement())
   cart      UserCart @relation(fields: [cartId], references: [id])
   cartId    Int
+  item      ShopItem @relation(fields: [itemId], references: [id])
+  itemId    Int
   processed Boolean  @default(false)
 }

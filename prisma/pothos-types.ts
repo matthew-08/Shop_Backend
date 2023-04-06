@@ -30,12 +30,16 @@ export default interface PrismaTypes {
         Where: Prisma.ShopItemWhereInput;
         Create: {};
         Update: {};
-        RelationName: "category";
-        ListRelations: never;
+        RelationName: "category" | "CartItem";
+        ListRelations: "CartItem";
         Relations: {
             category: {
                 Shape: Category;
                 Name: "Category";
+            };
+            CartItem: {
+                Shape: CartItem[];
+                Name: "CartItem";
             };
         };
     };
@@ -91,12 +95,16 @@ export default interface PrismaTypes {
         Where: Prisma.CartItemWhereInput;
         Create: {};
         Update: {};
-        RelationName: "cart";
+        RelationName: "cart" | "item";
         ListRelations: never;
         Relations: {
             cart: {
                 Shape: UserCart;
                 Name: "UserCart";
+            };
+            item: {
+                Shape: ShopItem;
+                Name: "ShopItem";
             };
         };
     };
