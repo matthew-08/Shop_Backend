@@ -153,4 +153,21 @@ builder.mutationFields((t) => ({
       return updatedCart as UserCart;
     },
   }),
+  incrementCartItem: t.field({
+    args: {
+      cartId: t.arg({ required: true, type: 'String' }),
+    },
+    type: cartItem,
+    resolve: async (parent, args) => {
+      const shopItemToIncrement = await prisma.cartItem.update({
+        where: {
+          id: Number(args.cartId),
+        },
+        data: {
+          quantity: { increment: 1 },
+        },
+      });
+      return shopItemToIncrement;
+    },
+  }),
 }));
