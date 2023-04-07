@@ -93,11 +93,11 @@ const AddToCartInput = builder.inputType('AddToCartInput', {
 builder.mutationFields((t) => ({
   addToCart: t.field({
     args: {
-      AddToCartInput: t.arg({ required: true, type: AddToCartInput }),
+      input: t.arg({ required: true, type: AddToCartInput }),
     },
     type: userCart,
     resolve: async (root, args) => {
-      const { itemToAdd, userId } = args.addToCartInput;
+      const { itemToAdd, userId } = args.input;
       const currentUserId = Number(userId);
       const cartExists = await prisma.userCart.count({
         where: {
