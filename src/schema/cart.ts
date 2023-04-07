@@ -83,15 +83,22 @@ const userCart = builder.prismaObject('UserCart', {
   }),
 })); */
 
+const addToCartInput = builder.inputType('AddToCartInput', {
+  fields: (t) => ({
+    userId: t.string({ required: true }),
+    itemToAdd: t.string({ required: true }),
+  }),
+});
+
 builder.mutationFields((t) => ({
   addToCart: t.field({
     args: {
-      userId: t.arg({ required: true, type: 'String' }),
-      itemToAdd: t.arg({ required: true, type: 'String' }),
+      addToCartInput: t.arg({ required: true, type: addToCartInput }),
     },
     type: userCart,
     resolve: async (root, args) => {
-      const currentUserId = Number(args.userId);
+      const { itemToAdd, userId } = args.addToCartInput;
+      const currentUserId = Number(userId);
       const cartExists = await prisma.userCart.count({
         where: {
           userId: currentUserId,
@@ -103,7 +110,7 @@ builder.mutationFields((t) => ({
             userId: currentUserId,
             CartItem: {
               create: {
-                itemId: Number(args.itemToAdd),
+                itemId: Number(itemToAdd),
               },
             },
           },
@@ -126,7 +133,7 @@ builder.mutationFields((t) => ({
         await prisma.cartItem.create({
           data: {
             cartId: uCart.id,
-            itemId: Number(args.itemToAdd),
+            itemId: Number(itemToAdd),
           },
         });
       }
