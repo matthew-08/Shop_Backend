@@ -18,6 +18,10 @@ type Error {
   message: String!
 }
 
+input IncrementCartItemInput {
+  cartItemId: String!
+}
+
 input LoginType {
   email: String!
   password: String!
@@ -27,7 +31,7 @@ type Mutation {
   addToCart(input: AddToCartInput!): UserCart!
   checkForSession(input: SessionCheckInput!): MutationCheckForSessionResult!
   deleteFromCart(cartId: String!, itemId: String!): UserCart!
-  incrementCartItem(cartId: String!): CartItem!
+  incrementCartItem(input: IncrementCartItemInput!): CartItem!
   login(input: LoginType!): MutationLoginResult!
   register(input: UserRegisterInput!): MutationRegisterResult!
 }

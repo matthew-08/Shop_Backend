@@ -92,7 +92,8 @@ const AddToCartInput = builder.inputType('AddToCartInput', {
 
 const IncrementCartItemInput = builder.inputType('IncrementCartItemInput', {
   fields: (t) => ({
-    cartItemId: t.string({ required: true }),
+    itemId: t.string({ required: true }),
+    cartId: t.string({ required: true }),
   }),
 });
 
