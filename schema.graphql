@@ -1,6 +1,6 @@
 type CartItem {
+  cartSpecificId: ID!
   item: ShopItem!
-  itemId: ID!
   t: Boolean!
 }
 
@@ -21,6 +21,7 @@ input LoginType {
 type Mutation {
   addToCart(itemToAdd: String!, userId: String!): UserCart!
   checkForSession(input: SessionCheckInput!): MutationCheckForSessionResult!
+  deleteFromCart(cartId: String!, itemId: String!): UserCart!
   login(input: LoginType!): MutationLoginResult!
   register(input: UserRegisterInput!): MutationRegisterResult!
 }

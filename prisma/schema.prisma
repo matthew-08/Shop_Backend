@@ -53,6 +53,7 @@ model CartItem {
   id        Int      @id @default(autoincrement())
   cart      UserCart @relation(fields: [cartId], references: [id])
   cartId    Int
+  quantity  Int      @default(1)
   item      ShopItem @relation(fields: [itemId], references: [id])
   itemId    Int
   processed Boolean  @default(false)
