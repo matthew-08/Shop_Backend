@@ -24,7 +24,7 @@ input LoginType {
 }
 
 type Mutation {
-  addToCart(AddToCartInput: AddToCartInput!): UserCart!
+  addToCart(input: AddToCartInput!): UserCart!
   checkForSession(input: SessionCheckInput!): MutationCheckForSessionResult!
   deleteFromCart(cartId: String!, itemId: String!): UserCart!
   incrementCartItem(cartId: String!): CartItem!

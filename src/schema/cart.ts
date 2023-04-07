@@ -90,6 +90,12 @@ const AddToCartInput = builder.inputType('AddToCartInput', {
   }),
 });
 
+const IncrementCartItemInput = builder.inputType('IncrementCartItemInput', {
+  fields: (t) => ({
+    cartItemId: t.string({ required: true }),
+  }),
+});
+
 builder.mutationFields((t) => ({
   addToCart: t.field({
     args: {
@@ -162,13 +168,13 @@ builder.mutationFields((t) => ({
   }),
   incrementCartItem: t.field({
     args: {
-      cartId: t.arg({ required: true, type: 'String' }),
+      input: t.arg({ required: true, type: IncrementCartItemInput }),
     },
     type: cartItem,
     resolve: async (parent, args) => {
       const shopItemToIncrement = await prisma.cartItem.update({
         where: {
-          id: Number(args.cartId),
+          id: Number(args.input.cartItemId),
         },
         data: {
           quantity: { increment: 1 },
