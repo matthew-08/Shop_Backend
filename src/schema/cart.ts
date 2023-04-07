@@ -1,5 +1,5 @@
 import { PrismaPlugin } from '@pothos/plugin-prisma';
-import { ShopItem, UserCart } from '@prisma/client';
+import { CartItem, ShopItem, UserCart } from '@prisma/client';
 import builder from '../builder';
 import prisma from '../db';
 import { shopItem } from './shopitem';
@@ -173,15 +173,25 @@ builder.mutationFields((t) => ({
     },
     type: cartItem,
     resolve: async (parent, args) => {
-      const shopItemToIncrement = await prisma.cartItem.update({
+      const shopItemToIncrement = await prisma.cartItem.findFirst({
         where: {
-          id: Number(args.input.cartItemId),
-        },
-        data: {
-          quantity: { increment: 1 },
+          itemId: Number(args.input.itemId),
+          AND: {
+            itemId: Number(args.input.itemId),
+          },
         },
       });
-      return shopItemToIncrement;
+      if (shopItemToIncrement) {
+        await prisma.cartItem.update({
+          where: {
+            id: shopItemToIncrement.id,
+          },
+          data: {
+            quantity: { increment: 1 },
+          },
+        });
+      }
+      return shopItemToIncrement as CartItem;
     },
   }),
 }));
