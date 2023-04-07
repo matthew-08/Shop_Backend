@@ -83,7 +83,7 @@ const userCart = builder.prismaObject('UserCart', {
   }),
 })); */
 
-const addToCartInput = builder.inputType('AddToCartInput', {
+const AddToCartInput = builder.inputType('AddToCartInput', {
   fields: (t) => ({
     userId: t.string({ required: true }),
     itemToAdd: t.string({ required: true }),
@@ -93,7 +93,7 @@ const addToCartInput = builder.inputType('AddToCartInput', {
 builder.mutationFields((t) => ({
   addToCart: t.field({
     args: {
-      addToCartInput: t.arg({ required: true, type: addToCartInput }),
+      AddToCartInput: t.arg({ required: true, type: AddToCartInput }),
     },
     type: userCart,
     resolve: async (root, args) => {
