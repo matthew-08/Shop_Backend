@@ -19,7 +19,8 @@ type Error {
 }
 
 input IncrementCartItemInput {
-  cartItemId: String!
+  cartId: String!
+  itemId: String!
 }
 
 input LoginType {

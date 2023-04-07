@@ -1,5 +1,7 @@
 import { PrismaPlugin } from '@pothos/plugin-prisma';
-import { CartItem, ShopItem, UserCart } from '@prisma/client';
+import {
+  CartItem, ShopItem, User, UserCart,
+} from '@prisma/client';
 import builder from '../builder';
 import prisma from '../db';
 import { shopItem } from './shopitem';
@@ -61,27 +63,22 @@ const userCart = builder.prismaObject('UserCart', {
   }),
 });
 
-/* builder.queryFields((t) => ({
+builder.queryFields((t) => ({
   userCart: t.prismaField({
     args: {
       userId: t.arg({ required: true, type: 'String' }),
     },
-    type: ['CartItem'],
+    type: userCart,
     resolve: async (query, parent, args) => {
-      const cart = prisma.userCart.findFirst({
+      const cart = await prisma.userCart.findFirst({
         where: {
           userId: Number(args.userId),
         },
       });
-      if (cart) {
-        return cart!;
-      }
-      return [{
-        cartId: 3, itemId: 3, id: 3, processed: false,
-      }];
+      return cart as UserCart;
     },
   }),
-})); */
+}));
 
 const AddToCartInput = builder.inputType('AddToCartInput', {
   fields: (t) => ({
