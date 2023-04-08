@@ -66,6 +66,7 @@ type Query {
 
   """An individual shop item obtained through ID"""
   itemById(id: Int!): ShopItem
+  userCart(userId: String!): UserCart!
 }
 
 input SessionCheckInput {
