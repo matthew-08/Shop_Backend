@@ -4,6 +4,7 @@ input AddToCartInput {
 }
 
 type CartItem {
+  cartItemQuantity: Int!
   cartSpecificId: ID!
   item: ShopItem!
   t: Boolean!

@@ -152,11 +152,30 @@ builder.mutationFields((t) => ({
     },
     type: userCart,
     resolve: async (root, args) => {
-      await prisma.cartItem.delete({
+      const findItem = await prisma.cartItem.findFirst({
         where: {
-          id: Number(args.itemId),
+          cartId: Number(args.cartId),
+          AND: {
+            itemId: Number(args.itemId),
+          },
         },
       });
+      if (findItem?.quantity === 1) {
+        await prisma.cartItem.delete({
+          where: {
+            id: Number(findItem.id),
+          },
+        });
+      } else {
+        await prisma.cartItem.update({
+          where: {
+            id: findItem?.id,
+          },
+          data: {
+            quantity: { decrement: 1 },
+          },
+        });
+      }
       const updatedCart = await prisma.userCart.findUnique({
         where: {
           id: Number(args.cartId),
