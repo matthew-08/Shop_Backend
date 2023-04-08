@@ -152,6 +152,7 @@ builder.mutationFields((t) => ({
     },
     type: userCart,
     resolve: async (root, args) => {
+      console.log(args);
       const findItem = await prisma.cartItem.findFirst({
         where: {
           cartId: Number(args.cartId),
@@ -166,10 +167,11 @@ builder.mutationFields((t) => ({
             id: Number(findItem.id),
           },
         });
-      } else {
+      } else if (findItem) {
+        console.log(findItem);
         await prisma.cartItem.update({
           where: {
-            id: findItem?.id,
+            id: findItem.id,
           },
           data: {
             quantity: { decrement: 1 },
@@ -194,12 +196,13 @@ builder.mutationFields((t) => ({
         where: {
           itemId: Number(args.input.itemId),
           AND: {
-            itemId: Number(args.input.itemId),
+            cartId: Number(args.input.cartId),
           },
         },
       });
       if (shopItemToIncrement) {
-        await prisma.cartItem.update({
+        console.log('increment item');
+        const item = await prisma.cartItem.update({
           where: {
             id: shopItemToIncrement.id,
           },
@@ -207,6 +210,7 @@ builder.mutationFields((t) => ({
             quantity: { increment: 1 },
           },
         });
+        console.log(item.id);
       }
       return shopItemToIncrement as CartItem;
     },
