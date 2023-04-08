@@ -87,7 +87,7 @@ type ShopItem {
   itemImage: String!
   itemName: String!
   itemPrice: Float!
-  quantity: Int!
+  itemQuantity: Int!
 }
 
 """Object type representing a user"""

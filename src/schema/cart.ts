@@ -9,6 +9,7 @@ import { shopItem } from './shopitem';
 const cartItem = builder.prismaObject('CartItem', {
   fields: (t) => ({
     cartSpecificId: t.exposeID('itemId'),
+    cartItemQuantity: t.exposeInt('quantity'),
     item: t.field({
       type: shopItem,
       resolve: async (c) => {
