@@ -9,7 +9,7 @@ export const shopItem = builder.prismaObject('ShopItem', {
     itemDescription: t.exposeString('description'),
     itemImage: t.exposeString('img'),
     itemId: t.exposeID('id'),
-    quantity: t.exposeInt('quantity'),
+    itemQuantity: t.exposeInt('quantity'),
     itemPrice: t.exposeFloat('price'),
   }),
 });
