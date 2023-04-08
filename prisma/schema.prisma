@@ -38,9 +38,9 @@ model User {
   id         Int       @id @default(autoincrement())
   name       String?
   email      String
-  password   String    @default("test")
+  password   String    @default("123")
   UserCart   UserCart?
-  userCartId Int?
+  userCartId Int?      @unique
 }
 
 model UserCart {

@@ -70,7 +70,7 @@ builder.queryFields((t) => ({
     },
     type: userCart,
     resolve: async (query, parent, args) => {
-      const cart = await prisma.userCart.findFirst({
+      const cart = await prisma.userCart.findUnique({
         where: {
           userId: Number(args.userId),
         },

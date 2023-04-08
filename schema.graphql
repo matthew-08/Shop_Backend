@@ -92,7 +92,7 @@ type ShopItem {
 
 """Object type representing a user"""
 type User {
-  cart: [UserCart!]!
+  cart: UserCart!
   email: String!
   id: ID!
   token: String!
