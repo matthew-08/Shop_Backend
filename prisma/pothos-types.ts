@@ -54,10 +54,10 @@ export default interface PrismaTypes {
         Create: {};
         Update: {};
         RelationName: "UserCart";
-        ListRelations: "UserCart";
+        ListRelations: never;
         Relations: {
             UserCart: {
-                Shape: UserCart[];
+                Shape: UserCart | null;
                 Name: "UserCart";
             };
         };

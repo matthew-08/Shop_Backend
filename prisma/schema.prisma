@@ -40,7 +40,7 @@ model User {
   email      String
   password   String    @default("test")
   UserCart   UserCart?
-  userCartId Int
+  userCartId Int?
 }
 
 model UserCart {
