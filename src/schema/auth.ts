@@ -1,4 +1,3 @@
-import { prismaModelKey } from '@pothos/plugin-prisma/dts/object-ref';
 import jwt, { Secret, JwtPayload } from 'jsonwebtoken';
 import builder from '../builder';
 import prisma from '../db';
